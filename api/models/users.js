@@ -74,17 +74,8 @@ module.exports = {
     },
 
     findUserByEmail : function(paramEmail){
-        //let registerdUser=
-        this.Users.find({email:paramEmail})
-        .then(function(err,data){
-            if(err){
-                return err
-            }else{
-                console.log("data==> ",data);
-                return data;
-            }
-        })
-        //return registerdUser;
+        let registerdUser=this.Users.find({email:paramEmail});
+        return registerdUser;
     }
 }
 
