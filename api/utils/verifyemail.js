@@ -1,8 +1,8 @@
 
-function verifyEmail(checkEmail){
+function velidateEmail(checkEmail){
     return true;
 }
 
 module.exports={
-    verifyEmail
+    velidateEmail
 }

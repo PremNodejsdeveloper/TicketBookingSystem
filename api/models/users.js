@@ -81,6 +81,20 @@ module.exports = {
         let registerdUser= await userModel.find({phone:checkPhoneNo});
         return registerdUser;
     }
+
+
+    //searchForMovie()
+    //BookTicket()
+    // MakePayment()
+    // cancleTicket()
+
+    // Admin taks
+    /*
+      AddMovieRecord()
+      updateMovieRecord()
+      deleteMovieRecord() 
+     */
+
 }
 
 
