@@ -11,11 +11,11 @@ module.exports={
     },
  
 
-    errorResponse: function (pramCode,paramMessage,paramData){
+    errorResponse: function (errCode,errMessage,errData){
       let status   =  "error";
-      let code     =  pramCode;
-      let message  =  paramMessage;
-      let error    =  paramData
+      let code     =  errCode;
+      let message  =  errMessage;
+      let error    =  errData
         
        return {status,code,message,error}
     }

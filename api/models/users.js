@@ -43,14 +43,13 @@ const userSchema = mongoose.Schema({
 });
 
 let userModel= mongoose.model("Users", userSchema);
-//exporting the user model
-//module.exports=userModel;
+
 module.exports = {
-    Users: userModel,
+    //Users: userModel,
 
     createUser: async function(userDTO){
         //create a newUser object with the users provided data
-       let newUser = new this.Users({
+       let newUser = new userModel({
         firstName : userDTO.firstName,
         lastName  : userDTO.lastName,
         email     : userDTO.email,
@@ -64,7 +63,7 @@ module.exports = {
         let savedUser= await newUser.save();
         return savedUser;
        }catch(err){
-        console.log("error occured creating user",err);
+        console.log(err);
         return err;
        }      
     },
@@ -73,8 +72,13 @@ module.exports = {
 
     },
 
-    findUserByEmail : function(paramEmail){
-        let registerdUser=this.Users.find({email:paramEmail});
+    findUserByEmail : async function(paramEmail){
+        let registerdUser= await userModel.find({email:paramEmail});
+        return registerdUser;
+    },
+
+    findUserByPhone : async function(checkPhoneNo){
+        let registerdUser= await userModel.find({phone:checkPhoneNo});
         return registerdUser;
     }
 }

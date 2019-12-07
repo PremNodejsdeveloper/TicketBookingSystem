@@ -27,7 +27,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 // Connect to Mongoose and set connection variable
-mongoose.connect(dbConnection.mongodbServer.url, { useNewUrlParser: true});
+mongoose.connect(dbConnection.mongodbServer.url, 
+  { useUnifiedTopology: true,useNewUrlParser: true});
 var db = mongoose.connection;
 
 // Added check for DB connection

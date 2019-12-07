@@ -1,5 +1,6 @@
 const Users = require('../models/users');
 let buildResponse = require('../utils/responseFormatter');
+let validateUserData = require('../utils/validateUserData');
 
 
 module.exports ={
@@ -7,20 +8,34 @@ module.exports ={
     signUp: async function (userDTO) {
         try{
             let customeResponse
-            let existingUser =  Users.findUserByEmail(userDTO.email);
-            if (existingUser) {
-                customeResponse=buildResponse.errorResponse(402,"user already exists");
-                return customeResponse;
-                //return { status: 402, message: "user already exists" };
-            } else {
-                // calling userModel methods to insert the data in database
-                let userRecord = await userModel.createUser(userDTO);
-                return userRecord;
+
+            let validResult = validateUserData.validate(userDTO);
+            if(validResult.firstName===true && validResult.phone===true){
+                let existingUser     = await Users.findUserByEmail(userDTO.email);
+                let existingMobileNo = await Users.findUserByPhone(userDTO.email);
+
+                if (Object.keys(existingUser).length!=0) {
+                    customeResponse=buildResponse.errorResponse(403,"user already exists");
+                    return customeResponse;
+                   
+                }else if (existingMobileNo){
+                    customeResponse=buildResponse.errorResponse(403,"user mobile no already exists");
+                    return customeResponse;
+
+                } else {                  
+                    // calling userModel methods to insert the data in database
+                    let userRecord = await Users.createUser(userDTO);
+                    customeResponse = buildResponse.successResponse(200,"User Successfully regiested to db",userRecord);
+                    return customeResponse;
+                }
+            }else{
+                return buildResponse.errorResponse(400,"inputs are not valid input");
             }
-            //return existingUser;
             
+                    
         }catch(error){
-             customeResponse=buildResponse.errorResponse(500,"Some Exception Occured");
+            customeResponse=buildResponse.errorResponse(500,"Some Exception Occured",error.message);
+            return customeResponse;
         }
         
     },
