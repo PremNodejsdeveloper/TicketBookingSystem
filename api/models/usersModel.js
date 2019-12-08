@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 // Setting up Schema 
-
 const userSchema = mongoose.Schema({
    
     firstName: {
@@ -32,11 +31,11 @@ const userSchema = mongoose.Schema({
         type:String,
         required: false
     },
-    createdDate: {
+    createdAt: {
         type:Date,
         default:Date.now
     },
-    updatedDate: {
+    updatedAt: {
         type:Date,
         default:Date.now
     }
@@ -69,7 +68,7 @@ module.exports = {
     },
 
     updateUser: function(){
-
+       // update user details 
     },
 
     findUserByEmail : async function(paramEmail){
@@ -80,20 +79,7 @@ module.exports = {
     findUserByPhone : async function(checkPhoneNo){
         let registerdUser= await userModel.find({phone:checkPhoneNo});
         return registerdUser;
-    }
-
-
-    //searchForMovie()
-    //BookTicket()
-    // MakePayment()
-    // cancleTicket()
-
-    // Admin taks
-    /*
-      AddMovieRecord()
-      updateMovieRecord()
-      deleteMovieRecord() 
-     */
+    }    
 
 }
 

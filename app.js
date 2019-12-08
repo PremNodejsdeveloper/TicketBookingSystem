@@ -8,7 +8,7 @@ const dbConnection= require('./config/dbConnection');
 const mongoose     = require('mongoose');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/usersRoutes');
 
 var app = express();
 
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 // Connect to Mongoose and set connection variable
-mongoose.connect(dbConnection.mongodbServer.url, 
+mongoose.connect(dbConnection.url, 
   { useUnifiedTopology: true,useNewUrlParser: true});
 var db = mongoose.connection;
 
@@ -37,8 +37,8 @@ if(!db)
 else
   console.log("Db connected successfully")
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/',      indexRouter);
+app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
