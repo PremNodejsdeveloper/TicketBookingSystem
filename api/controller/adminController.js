@@ -1,6 +1,5 @@
 let adminService = require('../services/adminService');
    
-   
    // This is Admin Taks Area
    
    module.exports ={

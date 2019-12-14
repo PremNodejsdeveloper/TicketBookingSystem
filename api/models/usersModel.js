@@ -41,14 +41,14 @@ const userSchema = mongoose.Schema({
     }
 });
 
-let userModel= mongoose.model("Users", userSchema);
+let Users= mongoose.model("Users", userSchema);
 
 module.exports = {
     //Users: userModel,
 
     createUser: async function(userDTO){
         //create a newUser object with the users provided data
-       let newUser = new userModel({
+       let newUser = new Users({
         firstName : userDTO.firstName,
         lastName  : userDTO.lastName,
         email     : userDTO.email,
@@ -72,12 +72,12 @@ module.exports = {
     },
 
     findUserByEmail : async function(paramEmail){
-        let registerdUser= await userModel.find({email:paramEmail});
+        let registerdUser= await Users.find({email:paramEmail});
         return registerdUser;
     },
 
     findUserByPhone : async function(checkPhoneNo){
-        let registerdUser= await userModel.find({phone:checkPhoneNo});
+        let registerdUser= await Users.find({phone:checkPhoneNo});
         return registerdUser;
     }    
 

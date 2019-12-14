@@ -12,7 +12,7 @@ router.post('/login',  usersController.login)
 
 router.post('/admin/addMovie',     adminController.addMovieRecord)
 router.post('/admin/delMovie',     adminController.deleteMovieRecord)
-router.post('/admin/updateMovie',  adminController.updateMovieRecord)
+router.put('/admin/updateMovie',  adminController.updateMovieRecord)
 
 
 

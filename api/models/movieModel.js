@@ -26,10 +26,10 @@ const movieSchema = mongoose.Schema({
 
 });
 
-const movieModel = mongoose.model('Movie' , movieSchema);
+const Movie = mongoose.model('Movie' , movieSchema);
 
 async function addNewMovie(movieDTO){
-    let newMovie = new movieModel({
+    let newMovie = new Movie({
         movieName : movieDTO.movieName,
         movieShow : movieDTO.movieShow,
         venue     : movieDTO.venue,
@@ -46,14 +46,12 @@ async function addNewMovie(movieDTO){
 }
 
 async function updateMovieRecord(movieDTO){
-    let newMovie = new movieModel({
+    let newMovie = new movie({
         movieName : movieDTO.movieName,
         movieShow : movieDTO.movieShow,
         venue     : movieDTO.venue,
-        
-
        });
-        
+    
        try{
         let savedMovie= await newMovie.save();
         return savedMovie;
@@ -62,9 +60,10 @@ async function updateMovieRecord(movieDTO){
         return err;
        } 
 }
+
 async function deleteMovieRecord(movieDTO){       
        try{
-        let deletedMovie= await movieModel.findOneAndDelete({movieName:movieDTO.movieName});
+        let deletedMovie= await Movie.findOneAndDelete({movieName:movieDTO.movieName});
         return deletedMovie;
        }catch(err){
         console.log("error occured during findOne and deleting movie ",err);
@@ -72,16 +71,24 @@ async function deleteMovieRecord(movieDTO){
        } 
 }
 
+async function findByMovieName(movieDTO){       
+    try{
+     let existingMovie= await Movie.find({movieName:movieDTO.movieName});
+     return existingMovie;
+    }catch(err){
+     console.log("error occured during findOne and deleting movie ",err);
+     return err;
+    } 
+}
 
 function updateDetails(){
 
 }
 
 module.exports = {
-    //movieModel,
     addNewMovie,
     updateMovieRecord,
     deleteMovieRecord,
-    updateDetails
+    findByMovieName
     
 }

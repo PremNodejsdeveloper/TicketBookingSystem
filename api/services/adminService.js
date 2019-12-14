@@ -6,8 +6,14 @@ module.exports ={
     addMovieRecord : async function(movieRecord){
         try{
            let customeResponse
-           let result = await movie.addNewMovie(movieRecord);
-           customeResponse = buildResponse.successResponse(200,"new movie record added succefully",result);
+           let isMovieExists= await movie.findByMovieName(movieRecord);
+           
+           if(Object.keys(isMovieExists).length==0){
+            let result = await movie.addNewMovie(movieRecord);
+            customeResponse = buildResponse.successResponse(200,"new movie record added succefully",result);
+            return customeResponse;
+           }
+           customeResponse = buildResponse.errorResponse(403,"movie record exists in our db");
            return customeResponse;
         }catch(error){
            console.log("error occured during addMovieRecord =>",error);
