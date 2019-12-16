@@ -16,12 +16,12 @@ const movieSchema = mongoose.Schema({
         required : false
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
+        //default:Date.now()
     },
     updatedAt: {
-        type:Date,
-        default:Date.now
+        type:Date
+        //default:Date.now()
     }
 
 });
@@ -45,18 +45,14 @@ async function addNewMovie(movieDTO){
        } 
 }
 
-async function updateMovieRecord(movieDTO){
-    let newMovie = new movie({
-        movieName : movieDTO.movieName,
-        movieShow : movieDTO.movieShow,
-        venue     : movieDTO.venue,
-       });
-    
+async function updateMovieRecord(editedRecord){ 
        try{
-        let savedMovie= await newMovie.save();
-        return savedMovie;
+        //console.log("edited Record=> ",editedRecord);
+        editedRecord.updatedAt = Date.now();
+        let updatedMovie= await Movie.updateOne({_id: editedRecord.id},{$set: editedRecord })
+        return updatedMovie;
        }catch(err){
-        console.log(err);
+        console.log("error occured inside movieModel updateMovieRecord => ",err);
         return err;
        } 
 }
@@ -71,12 +67,32 @@ async function deleteMovieRecord(movieDTO){
        } 
 }
 
-async function findByMovieName(movieDTO){       
+async function findMovieByName(movieDTO){       
     try{
      let existingMovie= await Movie.find({movieName:movieDTO.movieName});
      return existingMovie;
     }catch(err){
      console.log("error occured during findOne and deleting movie ",err);
+     return err;
+    } 
+}
+
+async function findMovieById(movieId){       
+    try{
+     let existingMovie= await Movie.findById({_id: movieId});
+     return existingMovie;
+    }catch(err){
+     console.log("error occured during findind a movie by Id ",err);
+     return err;
+    } 
+}
+
+async function findAllMovies(){       
+    try{
+     let listOfMovies= await Movie.find({});
+     return listOfMovies;
+    }catch(err){
+     console.log("error occured during find All movies ",err);
      return err;
     } 
 }
@@ -87,8 +103,10 @@ function updateDetails(){
 
 module.exports = {
     addNewMovie,
-    updateMovieRecord,
     deleteMovieRecord,
-    findByMovieName
+    updateMovieRecord,
+    findMovieByName,
+    findMovieById,
+    findAllMovies
     
 }

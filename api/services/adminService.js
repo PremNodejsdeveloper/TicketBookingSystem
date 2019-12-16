@@ -6,7 +6,7 @@ module.exports ={
     addMovieRecord : async function(movieRecord){
         try{
            let customeResponse
-           let isMovieExists= await movie.findByMovieName(movieRecord);
+           let isMovieExists= await movie.findMovieByName(movieRecord);
            
            if(Object.keys(isMovieExists).length==0){
             let result = await movie.addNewMovie(movieRecord);
@@ -25,10 +25,37 @@ module.exports ={
 
     updateMovieRecord : async function(movieRecord){
       try{
+         //console.log("movie Record => ", movieRecord);
          let customeResponse
-         let result = await movie.updateMovieRecord(movieRecord);
-         customeResponse = buildResponse.successResponse(200,"movie record updated succefully",result);
-         return customeResponse;
+         let movieExist = await movie.findMovieById(movieRecord.id);
+         if(movieExist){
+            // try{
+            //    let result = await movie.updateMovieRecord(movieRecord);
+            //    console.log("result is =>", result);
+            //    customeResponse = buildResponse.successResponse(
+            //                      200,"movie record updated succefully",result);
+            //    return customeResponse;
+            // }
+            // catch(err){
+            //    console.log("error occured during updateMovieRecord =>",err);
+            //          customeResponse = buildResponse.errorResponse(500,"some error occured");
+            //          return customeResponse;
+            // }
+            let result = await movie.updateMovieRecord(movieRecord);
+            if(result.n===1 && result.nModified===1 && result.ok ===1){
+               customeResponse = buildResponse.successResponse(
+                                 200,"movie record updated succefully",result);
+               return customeResponse;
+            }else{
+                  console.log("error occured during updateMovieRecord =>",error);
+                  customeResponse = buildResponse.errorResponse(500,"some error occured");
+                  return customeResponse;
+            }
+          
+         }else{
+            customeResponse = buildResponse.errorResponse(404,"movie not found",result);
+            return customeResponse;
+         }
       }catch(error){
          console.log("error occured during updateMovieRecord =>",error);
          customeResponse = buildResponse.errorResponse(500,"some error occured");
@@ -53,7 +80,24 @@ module.exports ={
          customeResponse = buildResponse.errorResponse(500,"some error occured");
          return customeResponse;
       }
+    },
+
+    getAllMovieRecord : async function(){
+      try{
+         let customeResponse
+         let result = await movie.findAllMovies();
+         if(result){
+            customeResponse = buildResponse.successResponse(200,"movie record fetched succefully",result);
+            return customeResponse;
+         }
+         customeResponse = buildResponse.successResponse(404,"movie record not found",result);
+         return customeResponse;
         
+      }catch(error){
+         console.log("error occured during fetching MovieRecord =>",error);
+         customeResponse = buildResponse.errorResponse(500,"some error occured");
+         return customeResponse;
+      }
     }
 
 

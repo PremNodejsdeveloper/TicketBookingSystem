@@ -37,7 +37,19 @@ let adminService = require('../services/adminService');
            console.log("error occured during deleting a Movie Record =>",error);
            response.status(500).json("some error occured");
         } 
-    }
+    },
+
+
+    getAllMovieRecords : async function(request, response){
+      try{
+         //let movieRecord = request.body;
+         let result  = await adminService.getAllMovieRecord();
+         response.status(result.code).json(result);
+      }catch(error){
+         console.log("error occured during fetching Movie Record =>",error);
+         response.status(500).json("some error occured");
+      } 
+  }
 
 
    }

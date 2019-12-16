@@ -12,7 +12,8 @@ router.post('/login',  usersController.login)
 
 router.post('/admin/addMovie',     adminController.addMovieRecord)
 router.post('/admin/delMovie',     adminController.deleteMovieRecord)
-router.put('/admin/updateMovie',  adminController.updateMovieRecord)
+router.put('/admin/updateMovie',   adminController.updateMovieRecord)
+router.get('/admin/listMovies',    adminController.getAllMovieRecords)
 
 
 
