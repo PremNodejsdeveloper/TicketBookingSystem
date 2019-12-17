@@ -37,8 +37,8 @@ if(!db)
 else
   console.log("Db connected successfully")
 
-app.use('/',      indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/',      indexRouter);
+app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
