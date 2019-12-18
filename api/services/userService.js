@@ -1,4 +1,5 @@
 let Users   =   require('../models/usersModel');
+let movie   =   require('../models/movieModel');
 let verifyEmail = require('../utils/verifyemail');
 let buildResponse = require('../utils/responseFormatter');
 let validateUserData = require('../utils/validateUserData');
@@ -71,5 +72,24 @@ module.exports = {
             customeResponse = buildResponse.errorResponse(500, "Some Exception Occured", error.message);
             return customeResponse;
         }
-    }
+    },
+
+    getAllMovies : async function(){
+        try{
+           let customeResponse
+           let result = await movie.findAllMovies();
+           if(result){
+              customeResponse = buildResponse.successResponse(200,"movie record fetched succefully",result);
+              return customeResponse;
+           }
+           customeResponse = buildResponse.successResponse(404,"movie record not found",result);
+           return customeResponse;
+          
+        }catch(error){
+           console.log("error occured during fetching MovieRecord =>",error);
+           customeResponse = buildResponse.errorResponse(500,"some error occured");
+           return customeResponse;
+        }
+      }
+  
 }

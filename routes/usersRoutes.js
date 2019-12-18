@@ -5,8 +5,9 @@ const adminController = require('../api/controller/adminController');
 
 /* --------Users routes------------------ */
 
-router.post('/signUp', usersController.signUp)
-router.post('/login',  usersController.login)
+router.post('/signUp',   usersController.signUp)
+router.post('/login',    usersController.login)
+router.get('/listMovies',usersController.getAllMovies)
 
 /* --------Admin routes------------------ */
 

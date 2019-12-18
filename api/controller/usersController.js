@@ -23,7 +23,18 @@ module.exports = {
              console.log("error occured during login =>",error);
             response.status(500).json("some error occured");
          }
-    }
+    },
+
+    getAllMovies : async function(request, response){
+      try{
+         //let movieRecord = request.body;
+         let result  = await userService.getAllMovies();
+         response.status(result.code).json(result);
+      }catch(error){
+         console.log("error occured during fetching Movie Record =>",error);
+         response.status(500).json("some error occured");
+      } 
+  }
 
  
     // searchForMovie()
