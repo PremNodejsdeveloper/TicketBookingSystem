@@ -12,7 +12,7 @@ module.exports = {
             let customeResponse
 
             let validResult = validateUserData.validate(userDTO);
-            if (validResult.firstName === true && validResult.LastName === true
+            if (validResult.firstName === true && validResult.lastName === true
                 && validResult.phone === true && validResult.email === true) {
                 let existingUser = await Users.findUserByEmail(userDTO.email);
                 let existingMobileNo = await Users.findUserByPhone(userDTO.phone);
@@ -21,7 +21,7 @@ module.exports = {
                     customeResponse = buildResponse.errorResponse(403, "user email already exists");
                     return customeResponse;
 
-                } else if (existingMobileNo) {
+                } else if (Object.keys(existingMobileNo).length != 0) {
                     customeResponse = buildResponse.errorResponse(403, "user mobile no already exists");
                     return customeResponse;
 

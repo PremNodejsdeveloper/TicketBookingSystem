@@ -22,7 +22,7 @@ function validate(userDTO){
     }
 
     if(verifiedLastName===null){
-        userData.firstName = true;
+        userData.lastName = true;
     }
      if(verifiedEmail===true){
         userData.email = true;
