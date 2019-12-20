@@ -3,23 +3,23 @@ const mongoose = require('mongoose');
 //Setting Up Schema
 const bookTicketSchema = mongoose.Schema({
 
-    noOfTicketAvailable :{
+    customerId :{
         type : Number,
         required: false
     },
-    movieName: {
+    movieShowId: {
         type : String,
         require : false
     },
-    ShowNo :{
-        type :String,
+    bookingForDate :{
+        type :Date,
         require : false
     },
-    Date: {
+    bookingMadeDate: {
         type : Date ,
         required : false
     },
-    Time :{
+    bookingSeatCount :{
         type : Date,
         required : false
     },

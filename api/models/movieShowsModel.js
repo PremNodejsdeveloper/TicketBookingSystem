@@ -1,23 +1,27 @@
 const mongoose = require('mongoose');
 
 // Setting up Schema 
-const makePaymentSchema = mongoose.Schema({
+const movieShowsSchema = mongoose.Schema({
    
-    bookTicketId: {
+    cinemaHallId: {
         type : Number,
         required: false
     },
-    userId: { 
+    showTime: { 
         type : Date,
         required: false
     },
-    tranctionStatus: {
-        type: String,
+    movieId: {
+        type: Number,
         required: false
     },
-    tranctionDate: {
+    showing_from_date: {
         type: Date,
         required: true
+    },
+    showing_to_date: {
+        type:String,
+        required: false
     },
     createdAt: {
         type:Date,
@@ -29,6 +33,4 @@ const makePaymentSchema = mongoose.Schema({
     }
 });
 
-let MakePayment = mongoose.model("MakePayment", makePaymentSchema);
-//confirmTransction()
-// ReturnMoneyOnCancellation()
+let MovieShows = mongoose.model("MovieShows", movieShowsSchema);

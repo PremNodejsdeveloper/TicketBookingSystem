@@ -11,17 +11,29 @@ const movieSchema = mongoose.Schema({
         type : Date,
         required : false
     },
+    language: {
+        type: String,
+        required:false
+    },
+    hours: {
+        type: Number,
+        required:false
+    },
+    movieType: {
+        type: String,
+        required: false
+    },
     venue : {
         type: String,
         required : false
     },
     createdAt: {
-        type:Date
-        //default:Date.now()
+        type:Date,
+        default:Date.now()
     },
     updatedAt: {
-        type:Date
-        //default:Date.now()
+        type:Date,
+        default:Date.now()
     }
 
 });
