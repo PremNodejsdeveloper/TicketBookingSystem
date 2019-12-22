@@ -1,7 +1,7 @@
 //let State =  require('../models/stateModel');
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
-// Setting up Schema 
+ 
 const citySchema = Schema({
    
     cityName: {
