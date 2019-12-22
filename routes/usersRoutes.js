@@ -14,7 +14,7 @@ router.get('/listMovies',usersController.getAllMovies)
 
 router.post('/admin/addState',        adminController.addStateRecord)
 router.post('/admin/addCity',         adminController.addCityRecord)
-router.post('/admin/addCinema',    adminController.addCinemaRecord)
+//router.post('/admin/addCinema',    adminController.addCinemaRecord)
 // router.post('/admin/addCinemaHall',adminController.addCinemaHallRecord)
 // router.post('/admin/addSeates',    adminController.addSeatesRecord)
 router.post('/admin/addMovie',        adminController.addMovieRecord)
