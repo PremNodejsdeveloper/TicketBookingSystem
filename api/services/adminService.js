@@ -1,4 +1,6 @@
 let movie = require('../models/movieModel');
+let state = require('../models/stateModel');
+let city = require('../models/cityModel');
 let buildResponse = require('../utils/responseFormatter');
 
 module.exports ={
@@ -98,7 +100,80 @@ module.exports ={
          customeResponse = buildResponse.errorResponse(500,"some error occured");
          return customeResponse;
       }
-    }
+    },
 
+    addStateRecord : async function(stateRecord){
+      try{
+         let customeResponse
+         let isStateExists= await state.findStateByName(stateRecord.stateName);
+         
+         if(Object.keys(isStateExists).length==0){
+          let result = await state.addNewState(stateRecord.stateName);
+          customeResponse = buildResponse.successResponse(200,"new state record added succefully",result);
+          return customeResponse;
+         }
+         customeResponse = buildResponse.errorResponse(400,"state record exists in our db");
+         return customeResponse;
+      }catch(error){
+         console.log("error occured during addMovieRecord =>",error);
+         customeResponse = buildResponse.errorResponse(500,"some error occured");
+         return customeResponse;
+      }
+      
+    },
+    
+    addCityRecord : async function(cityRecord){
+      try{
+         let customeResponse
+         let isStateExists= await state.findStateByName(cityRecord.stateName);
+         //console.log("isStateExists==>",isStateExists[0]);
+         if(Object.keys(isStateExists).length==0){
+            customeResponse = buildResponse.errorResponse(400,"state record not exists in our db");
+            return customeResponse;
+         }else{
+             let isCityExists = await city.cityByName(cityRecord.cityName);
+             if(Object.keys(isCityExists).length==0){
+               let stateData  = isStateExists[0];
+               let stateId    = stateData.id;
+               let cityName   = cityRecord.cityName;
+               let result     =  await city.addNewCity(stateId,cityName);
+               customeResponse = buildResponse.successResponse(200,"new city record added succefully",result);
+               return customeResponse;
+             }else{
+                customeResponse = buildResponse.errorResponse(400,"City Name already exists");
+                return customeResponse;
+             }
+             
+             
+         }
+        
+      }catch(error){
+         console.log("error occured during addNewCity Record =>",error);
+         customeResponse = buildResponse.errorResponse(500,"some error occured");
+         return customeResponse;
+      }
+      
+   },
 
-   }
+    getCityRecord : async function(cName){
+      try{
+         let customeResponse
+         let isCityExists= await city.cityByName(cName);
+         //console.log("isCityExists==>",isCityExists[0]);
+         if(Object.keys(isCityExists).length==0){
+            customeResponse = buildResponse.errorResponse(400,"city with state not found");
+            return customeResponse;
+         }else{
+             customeResponse = buildResponse.successResponse(200,"city recored fetched successfully",isCityExists[0]);
+             return customeResponse;
+         }
+        
+      }catch(error){
+         console.log("error occured during fetch City Record =>",error);
+         customeResponse = buildResponse.errorResponse(500,"some error occured");
+         return customeResponse;
+      }
+      
+   },
+
+}

@@ -19,3 +19,47 @@ const stateSchema = mongoose.Schema({
 });
 
 let State= mongoose.model("State", stateSchema);
+
+
+async function addNewState(stNameDTO){
+    let newState = new State({
+        stateName : stNameDTO
+    })
+    try{
+        let savedState= await newState.save();
+        return savedState;
+       }catch(err){
+        console.log(err);
+        return err;
+       }     
+}
+
+async function getAllState(){
+    try{
+        let allStates = await State.find({});
+        return allStates;
+       }catch(err){
+        console.log(err);
+        return err;
+       }     
+}
+
+async function findStateByName(stName){
+    try{
+        //console.log(stName);
+        let isStateExist = await State.find({stateName:stName});
+        return isStateExist;
+       }catch(err){
+        console.log(err);
+        return err;
+       }     
+}
+
+
+
+module.exports ={
+    addNewState,
+    getAllState,
+    findStateByName
+}
+

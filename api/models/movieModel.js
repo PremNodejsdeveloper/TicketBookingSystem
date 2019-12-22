@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-//Setting Up Schema
-const movieSchema = mongoose.Schema({
+const movieSchema = Schema({
 
     movieName:{
         type :String,
         required : false
     },
     movieShow :{
-        type : Date,
+        type : Schema.type.ObjectId,
         required : false
     },
     language: {

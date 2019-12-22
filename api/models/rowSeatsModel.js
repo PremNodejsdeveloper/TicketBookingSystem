@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-// Setting up Schema 
-const rowSeatsSchema = mongoose.Schema({
+const rowSeatsSchema = Schema({
    
-    cinemaHallId: {
-        type : Number,
-        required: false
+    cinemaHall: {
+        type : Schema.type.ObjectId,ref:'CinemaHall',
+        required: true
     },
     rowNumbers: { 
-        type : Number,
+        type : String,
         required: false
     },
     seatCount: {
@@ -26,3 +26,19 @@ const rowSeatsSchema = mongoose.Schema({
 });
 
 let RowSeats= mongoose.model("RowSeats", rowSeatsSchema);
+
+async function addSeats(seatsData){
+    let newRowSeats = new RowSeats({
+        cinemaHall :  seatData.cHall,
+        rowNumbers :  seatData.rNumber,
+        seatCount  :  seatData.scount
+        
+    })
+    try{
+        let savedRowSeats= await newRowSeats.save();
+        return savedRowSeats;
+       }catch(err){
+        console.log(err);
+        return err;
+       }     
+}

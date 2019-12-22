@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
-
-// Setting up Schema 
-const cinemaTheaterSchema = mongoose.Schema({
+let Schema = mongoose.Schema;
+ 
+const cinemaTheaterSchema = Schema({
    
     cinemaName: {
         type : String,
         required: false
     },
     address: { 
-        type : String,
+        type : Schema.type.ObjectId,
         required: false
     },
     rating: {
@@ -26,3 +26,21 @@ const cinemaTheaterSchema = mongoose.Schema({
 });
 
 let CinemaTheater= mongoose.model("CinemaTheater", cinemaTheaterSchema);
+
+async function addCinemaTheater(cinemaData){
+    let newCinemaTheater = new CinemaTheater({
+        cinemaName: cinemaData.cinemaName,
+        address   : cinemaData.address
+    })
+    try{
+        let savedCinameTheater= await newCinemaTheater.save();
+        return savedCinameTheater;
+       }catch(err){
+        console.log(err);
+        return err;
+       }     
+}
+
+module.exports ={
+    addCinemaTheater
+}
