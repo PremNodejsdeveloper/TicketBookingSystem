@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-const movieSchema = Schema({
+const movieSchema = new Schema({
 
     movieName:{
         type :String,
         required : false
     },
     movieShow :{
-        type : Schema.type.ObjectId,
+        type : String,
         required : false
     },
     language: {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
  
-const cinemaAddressSchema = Schema({
+const cinemaAddressSchema = new Schema({
    
     venue: { 
         type : String,
