@@ -61,7 +61,7 @@ let adminService = require('../services/adminService');
    }   
     },
 
-   addCityRecord: async function (request, response) {
+    addCityRecord: async function (request, response) {
          try {
             let cityRecord = request.body;
             let result = await adminService.addCityRecord(cityRecord);
@@ -70,9 +70,9 @@ let adminService = require('../services/adminService');
             console.log("error occured during addStateRecord =>", error);
             response.status(500).json("some error occured");
          }
-   },
+    },
 
-   getCityRecord: async function (request, response) {
+    getCityRecord: async function (request, response) {
       try {
          let cName = request.query.cityName;
          let result = await adminService.getCityRecord(cName);
@@ -81,6 +81,17 @@ let adminService = require('../services/adminService');
          console.log("error occured during addStateRecord =>", error);
          response.status(500).json("some error occured");
       }
-}
+    },
+
+    addCinemaRecord: async function (request, response) {
+      try {
+         let cinemaTheater = request.body;
+         let result = await adminService.addCinemaTheater(cinemaTheater);
+         response.status(result.code).json(result);
+      } catch (error) {
+         console.log("error occured during addCinemaTheater =>", error);
+         response.status(500).json("some error occured");
+      }
+ },
 
 }

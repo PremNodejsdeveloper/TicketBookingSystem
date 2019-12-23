@@ -8,8 +8,7 @@ const cinemaAddressSchema = new Schema({
         required: false
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -21,14 +20,17 @@ let CinemaAddress= mongoose.model("CinemaAddress", cinemaAddressSchema);
 
 
 async function addCinemaAddress(cAddress){
+    //console.log("cAddress==> ",cAddress);
     let newCinemaAddress = new CinemaAddress({
-        venue: cAddress
+        venue: cAddress,
+        createdAt: Date.now
     })
     try{
         let savedAddress= await newCinemaAddress.save();
+        //console.log("SavedAddress ",savedAddress);
         return savedAddress;
        }catch(err){
-        console.log(err);
+        console.log("error in CinemaAddress ",err);
         return err;
        }     
 }

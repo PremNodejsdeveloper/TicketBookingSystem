@@ -8,7 +8,7 @@ const cinemaTheaterSchema = new Schema({
         required: false
     },
     address: { 
-        type : Schema.type.ObjectId,
+        type : Schema.Types.ObjectId,
         ref  : 'CinemaAddress',
         required: true
     },
@@ -17,8 +17,7 @@ const cinemaTheaterSchema = new Schema({
         required: false
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -31,7 +30,8 @@ let CinemaTheater= mongoose.model("CinemaTheater", cinemaTheaterSchema);
 async function addCinemaTheater(cinemaData){
     let newCinemaTheater = new CinemaTheater({
         cinemaName: cinemaData.cinemaName,
-        address   : cinemaData.address
+        address   : cinemaData.cinemaAddress,
+        createdAt : Date.now
     })
     try{
         let savedCinameTheater= await newCinemaTheater.save();
@@ -42,6 +42,17 @@ async function addCinemaTheater(cinemaData){
        }     
 }
 
+async function findCinemaByName(ciName){
+    try{
+        let savedCinameTheater= await CinemaTheater.find({cinemaName:ciName});
+        return savedCinameTheater;
+       }catch(err){
+        console.log(err);
+        return err;
+       }     
+}
+
 module.exports ={
-    addCinemaTheater
+    addCinemaTheater,
+    findCinemaByName
 }

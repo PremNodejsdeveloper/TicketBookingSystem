@@ -1,6 +1,8 @@
 let movie = require('../models/movieModel');
 let state = require('../models/stateModel');
 let city = require('../models/cityModel');
+let cinema = require('../models/cinemaTheaterModel');
+let cinemaAddress = require('../models/cinemaAddressModel');
 let buildResponse = require('../utils/responseFormatter');
 
 module.exports ={
@@ -170,6 +172,36 @@ module.exports ={
         
       }catch(error){
          console.log("error occured during fetch City Record =>",error);
+         customeResponse = buildResponse.errorResponse(500,"some error occured");
+         return customeResponse;
+      }
+      
+   },
+
+    addCinemaTheater : async function(cTheater){
+      try{
+         let customeResponse
+         let isCinemaExists= await cinema.findCinemaByName(cTheater.cinemaName);
+         
+         if(Object.keys(isCinemaExists).length!=0){
+            customeResponse = buildResponse.errorResponse(400,"Cinema record exists in our db");
+            return customeResponse;
+         }else{            
+             let addCAddress = await cinemaAddress.addCinemaAddress(cTheater.cinemaAddress);
+             //console.log("addCAddress----->",addCAddress);
+            if(Object.keys(addCAddress).length!=0){
+               let cAddressData = addCAddress;
+               //console.log("cAddressData ==> ",cAddressData);
+               cTheater.cinemaAddress = cAddressData._id;
+               
+               let result     =  await cinema.addCinemaTheater(cTheater);
+               customeResponse = buildResponse.successResponse(200,"new Cinema record added succefully",result);
+               return customeResponse;
+             }
+         }
+        
+      }catch(error){
+         console.log("error occured during addCinema Record =>",error);
          customeResponse = buildResponse.errorResponse(500,"some error occured");
          return customeResponse;
       }
