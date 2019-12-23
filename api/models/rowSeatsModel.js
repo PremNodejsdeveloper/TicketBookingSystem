@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-const rowSeatsSchema = Schema({
+const rowSeatsSchema = new Schema({
    
     cinemaHall: {
-        type : Schema.type.ObjectId,ref:'CinemaHall',
+        type : Schema.Types.ObjectId,
+        ref:'CinemaHall',
         required: true
     },
     rowNumbers: { 
@@ -16,8 +17,7 @@ const rowSeatsSchema = Schema({
         required: true
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -27,18 +27,23 @@ const rowSeatsSchema = Schema({
 
 let RowSeats= mongoose.model("RowSeats", rowSeatsSchema);
 
-async function addSeats(seatsData){
+async function addSeats(seatData){
     let newRowSeats = new RowSeats({
-        cinemaHall :  seatData.cHall,
-        rowNumbers :  seatData.rNumber,
-        seatCount  :  seatData.scount
+        cinemaHall :  seatData.cHallId,
+        rowNumbers :  seatData.rowNumber,
+        seatCount  :  seatData.seatCount,
+        createdAt  :  Date.now()
         
     })
     try{
         let savedRowSeats= await newRowSeats.save();
         return savedRowSeats;
        }catch(err){
-        console.log(err);
+        console.log("error during saving seats data to hall ",err);
         return err;
        }     
+}
+
+module.exports ={
+    addSeats
 }

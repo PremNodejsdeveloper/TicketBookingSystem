@@ -1,26 +1,27 @@
 const mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-// Setting up Schema 
-const seatStatusSchema = mongoose.Schema({
+const seatStatusSchema = new Schema({
    
     //this is (pk)
     seatStatusCode: {
-        type : Schema.type.ObjectId
-        //required: false
+        type : Schema.Types.ObjectId,
     },
     rowSeatId: {
-        type:Schema.type.ObjectId, ref:'RowSeats'
+        type:Schema.Types.ObjectId, 
+        ref:'RowSeats',
+        required: true
     },
     seatNumber: {
         type:Number
     },
     seatStatus: { 
         type : String,
+        default:'NOT_BOOKED',
         required: false
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -35,6 +36,7 @@ async function refSeatStatus(seatsData){
         rowSeatId  : seatData.rSeatId,
         seatNumber : seatData.sNumber,
         seatStatus : seatData.sStatus,
+        createdAt  : Date.now()
         
     })
     try{

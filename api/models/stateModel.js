@@ -12,7 +12,7 @@ const stateSchema = new Schema({
     },
     updatedAt: {
         type:Date,
-        default:Date.now
+        default:Date.now()
     }
 });
 

@@ -92,6 +92,29 @@ let adminService = require('../services/adminService');
          console.log("error occured during addCinemaTheater =>", error);
          response.status(500).json("some error occured");
       }
- },
+     },
+
+    addCinemaHallRecord: async function (request, response) {
+      try {
+         let cinemaHall = request.body;
+         let result = await adminService.addCinemaHall(cinemaHall);
+         response.status(result.code).json(result);
+      } catch (error) {
+         console.log("error occured during addCinemaHall  =>", error);
+         response.status(500).json("some error occured");
+      }
+    },
+
+
+    addSeatsRecord: async function (request, response) {
+      try {
+         let cHallSeates = request.body;
+         let result = await adminService.addSeatsByHall(cHallSeates);
+         response.status(result.code).json(result);
+      } catch (error) {
+         console.log("error occured during addCinemaHallSeats  =>", error);
+         response.status(500).json("some error occured");
+      }
+    },
 
 }

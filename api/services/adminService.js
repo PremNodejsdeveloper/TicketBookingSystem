@@ -3,6 +3,8 @@ let state = require('../models/stateModel');
 let city = require('../models/cityModel');
 let cinema = require('../models/cinemaTheaterModel');
 let cinemaAddress = require('../models/cinemaAddressModel');
+let cinemaHall = require('../models/cinemaHallModel');
+let rowSeats   = require('../models/rowSeatsModel');
 let buildResponse = require('../utils/responseFormatter');
 
 module.exports ={
@@ -205,7 +207,60 @@ module.exports ={
          customeResponse = buildResponse.errorResponse(500,"some error occured");
          return customeResponse;
       }
+   },
+
+
+   addCinemaHall : async function(cHallData){
+      try{
+         let customeResponse
+         let isCinemaHallExists= await cinemaHall.findCinemaHallByName(cHallData.hallName);
+         
+         if(Object.keys(isCinemaHallExists).length!=0){
+            customeResponse = buildResponse.errorResponse(400,"CinemaHall record exists in our db");
+            return customeResponse;
+         }else{
+               let isCinemaExists = await cinema.findCinemaByName(cHallData.cinemaTheater);
+               //console.log("isCinemaExists",isCinemaExists);
+               if(Object.keys(isCinemaExists).length!=0){
+                  cHallData.cinemaTheater= isCinemaExists[0]._id; 
+                  let result         = await cinemaHall.addCinemaHall(cHallData);
+                  customeResponse    = buildResponse.successResponse(200,"new CinemaHall record added succefully",result);
+                  return customeResponse;  
+               }else{
+                  customeResponse = buildResponse.errorResponse(400,"CinemaTheater record not exists in our db");
+                  return customeResponse;
+               }                          
+         }
+        
+      }catch(error){
+         console.log("error occured during addCinemaHall Record =>",error);
+         customeResponse = buildResponse.errorResponse(500,"some error occured");
+         return customeResponse;
+      }
       
+   },
+
+   addSeatsByHall: async function (cHallSeates) {
+      try {
+         let customeResponse
+         let isCinemaHallExists = await cinemaHall.findCinemaHallById(cHallSeates.cHallId);
+         //console.log("isCinemaHallExist",isCinemaHallExists);
+         if (Object.keys(isCinemaHallExists).length == 0) {
+            customeResponse = buildResponse.errorResponse(400, "CinemaHall record not exists in our db");
+            return customeResponse;
+         } else {
+            let result = await rowSeats.addSeats(cHallSeates);
+            customeResponse = buildResponse.successResponse(200, "new CinemaHall seats record added succefully", result);
+            return customeResponse;
+
+         }
+
+      } catch (error) {
+         console.log("error occured during addCinemaHall Record =>", error);
+         customeResponse = buildResponse.errorResponse(500, "some error occured");
+         return customeResponse;
+      }
+
    },
 
 }

@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-const cinemaHallSchema = Schema({
+const cinemaHallSchema = new Schema({
    
     hallName: {
         type:String,
         required:true
     },
-    cinemaTheater: {
-        type : Schema.type.ObjectId,
-        required: true
-    },
     seatCapacity: { 
         type : Number,
         required: false
     },
+    cinemaTheater: {
+        type : Schema.Types.ObjectId,
+        ref  : 'CinemaTheater',
+        required: true
+    },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -27,11 +27,12 @@ const cinemaHallSchema = Schema({
 
 let CinemaHall= mongoose.model("CinemaHall", cinemaHallSchema);
 
-async function addCinemaHall(cinemaData){
+async function addCinemaHall(cHallData){
     let newCinemaHall = new CinemaHall({
-        hallName :     cinemaData.hallName,
-        cinemaTheater: cinemaData.cinemaTheater,
-        seatCapacity : cinemaData.seatCapacity
+        hallName     : cHallData.hallName,
+        seatCapacity : cHallData.seatCapacity,
+        cinemaTheater: cHallData.cinemaTheater,
+        createdAt    : Date.now()
         
     })
     try{
@@ -43,6 +44,28 @@ async function addCinemaHall(cinemaData){
        }     
 }
 
+async function findCinemaHallByName(cHallName){
+    try{
+        let savedCinameHall= await CinemaHall.find({hallName:cHallName});
+        return savedCinameHall;
+       }catch(err){
+        console.log("error during fetching cinemaHall Record",err);
+        return err;
+       }     
+}
+
+async function findCinemaHallById(cHallId){
+    try{
+        let isCinameHall= await CinemaHall.findById({_id:cHallId});
+        return isCinameHall;
+       }catch(err){
+        console.log("error during fetching cinemaHall Record by Id ",err);
+        return err;
+       }     
+}
+
 module.exports ={
-    addCinemaHall
+    addCinemaHall,
+    findCinemaHallByName,
+    findCinemaHallById
 }
