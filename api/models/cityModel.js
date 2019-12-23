@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
  
-const citySchema = Schema({
+const citySchema = new Schema({
    
     cityName: {
         type : String,
@@ -14,12 +14,11 @@ const citySchema = Schema({
         required: true
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
-        default:Date.now
+        default:Date.now()
     }
 });
 
@@ -28,7 +27,8 @@ let City= mongoose.model("City", citySchema);
 async function addNewCity(stId,cName){
     let newCity = new City({
         cityName: cName,
-        state : stId
+        state : stId,
+        createdAt: Date.now()
     })
     try{
         let savedCity= await newCity.save();

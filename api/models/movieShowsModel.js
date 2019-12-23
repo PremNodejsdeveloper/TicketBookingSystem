@@ -15,17 +15,16 @@ const movieShowsSchema = mongoose.Schema({
         type: Number,
         required: false
     },
-    showing_from_date: {
+    showingFromDate: {
         type: Date,
         required: true
     },
-    showing_to_date: {
+    showingToDate: {
         type:String,
         required: false
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,

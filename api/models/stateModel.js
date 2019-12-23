@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
-
-// Setting up Schema 
-const stateSchema = mongoose.Schema({
+let Schema = mongoose.Schema
+ 
+const stateSchema = new Schema({
    
     stateName: {
         type : String,
         required: false
     },
-   
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -23,7 +21,8 @@ let State= mongoose.model("State", stateSchema);
 
 async function addNewState(stNameDTO){
     let newState = new State({
-        stateName : stNameDTO
+        stateName : stNameDTO,
+        createdAt : Date.now()
     })
     try{
         let savedState= await newState.save();

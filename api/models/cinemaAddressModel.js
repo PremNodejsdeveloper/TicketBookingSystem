@@ -12,7 +12,7 @@ const cinemaAddressSchema = new Schema({
     },
     updatedAt: {
         type:Date,
-        default:Date.now
+        default:Date.now()
     }
 });
 
@@ -23,7 +23,7 @@ async function addCinemaAddress(cAddress){
     //console.log("cAddress==> ",cAddress);
     let newCinemaAddress = new CinemaAddress({
         venue: cAddress,
-        createdAt: Date.now
+        createdAt: Date.now()
     })
     try{
         let savedAddress= await newCinemaAddress.save();

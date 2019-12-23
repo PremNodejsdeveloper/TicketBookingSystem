@@ -21,7 +21,7 @@ const cinemaTheaterSchema = new Schema({
     },
     updatedAt: {
         type:Date,
-        default:Date.now
+        default:Date.now()
     }
 });
 
@@ -31,7 +31,7 @@ async function addCinemaTheater(cinemaData){
     let newCinemaTheater = new CinemaTheater({
         cinemaName: cinemaData.cinemaName,
         address   : cinemaData.cinemaAddress,
-        createdAt : Date.now
+        createdAt : Date.now()
     })
     try{
         let savedCinameTheater= await newCinemaTheater.save();

@@ -8,8 +8,9 @@ const movieSchema = new Schema({
         required : false
     },
     movieShow :{
-        type : String,
-        required : false
+        type : Schema.Types.ObjectId,
+        ref  : 'MoiveShows',
+        required : true
     },
     language: {
         type: String,
@@ -28,8 +29,7 @@ const movieSchema = new Schema({
         required : false
     },
     createdAt: {
-        type:Date,
-        default:Date.now()
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -45,6 +45,7 @@ async function addNewMovie(movieDTO){
         movieName : movieDTO.movieName,
         movieShow : movieDTO.movieShow,
         venue     : movieDTO.venue,
+        createdAt : Date.now()
 
        });
         
