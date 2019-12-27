@@ -1,5 +1,6 @@
 let Users   =   require('../models/usersModel');
 let movie   =   require('../models/movieModel');
+let movieShows = require('../models/movieShowsModel');
 let verifyEmail = require('../utils/verifyemail');
 let buildResponse = require('../utils/responseFormatter');
 let validateUserData = require('../utils/validateUserData');
@@ -90,6 +91,26 @@ module.exports = {
            customeResponse = buildResponse.errorResponse(500,"some error occured");
            return customeResponse;
         }
+      },
+
+      searchForMovies : async function(searchParams){
+        try{
+            let customeResponse
+            //let result = await movieShows.findShowsByTime(searchParams.showTime);
+            let result = await movieShows.findShowsByDate(searchParams.showingFromDate);
+            //console.log("result is ", result);
+            if(Object.keys(result).length!=0){
+               customeResponse = buildResponse.successResponse(200,"movie record fetched succefully",result);
+               return customeResponse;
+            }
+            customeResponse = buildResponse.errorResponse(404,"movie record not found",result);
+            return customeResponse;
+           
+         }catch(error){
+            console.log("error occured during searching MovieRecord =>",error);
+            customeResponse = buildResponse.errorResponse(500,"some error occured");
+            return customeResponse;
+         }
       }
   
 }

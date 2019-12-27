@@ -5,7 +5,10 @@ let cinema = require('../models/cinemaTheaterModel');
 let cinemaAddress = require('../models/cinemaAddressModel');
 let cinemaHall = require('../models/cinemaHallModel');
 let rowSeats   = require('../models/rowSeatsModel');
+let refSeatStatus   = require('../models/refSeatStatus');
+let movieShows   = require('../models/movieShowsModel');
 let buildResponse = require('../utils/responseFormatter');
+let moment        = require('moment');
 
 module.exports ={
 
@@ -257,6 +260,82 @@ module.exports ={
 
       } catch (error) {
          console.log("error occured during addCinemaHall Record =>", error);
+         customeResponse = buildResponse.errorResponse(500, "some error occured");
+         return customeResponse;
+      }
+
+   },
+
+   addSeatsByRow: async function (cHallSeats) {
+      try {
+         let customeResponse
+         let isSeatRowExists = await rowSeats.findRowOfSeatById(cHallSeats.rowSeatId);
+         //console.log("isSeatRowExist",isSeatRowExists );
+         if (Object.keys(isSeatRowExists).length == 0) {
+            customeResponse = buildResponse.errorResponse(400, "Seat Row no record not exists in our db");
+            return customeResponse;
+         } else {
+            let result = await refSeatStatus.addSeatsByRow(cHallSeats);
+            customeResponse = buildResponse.successResponse(200, " new seats record added succefully", result);
+            return customeResponse;
+
+         }
+
+      } catch (error) {
+         console.log("error occured during add SeatsByRow Record =>", error);
+         customeResponse = buildResponse.errorResponse(500, "some error occured");
+         return customeResponse;
+      }
+
+   },
+
+   addShowTimeToHall: async function (showData) {
+      try {
+         let customeResponse
+         let isShowTimeExists = await movieShows.findShowTime(showData.showTime);
+         console.log("isShowTimeExist",isShowTimeExists );
+         if (Object.keys(isShowTimeExists).length != 0) {
+            customeResponse = buildResponse.errorResponse(400, "show time exists in our db");
+            return customeResponse;
+         } else {
+            let result = await movieShows.addNewShowTime(showData);
+            customeResponse = buildResponse.successResponse(200, " new showTime added succefully", result);
+            return customeResponse;
+         }
+      } catch (error) {
+         console.log("error occured during add showtime =>", error);
+         customeResponse = buildResponse.errorResponse(500, "some error occured");
+         return customeResponse;
+      }
+
+   },
+
+
+   addNewMovieShow: async function (showData) {
+      try {
+         //console.log("showData",showData);
+         let customeResponse
+         let isShowTimeExists = await movieShows.findShowTime(showData.showTime);
+         //console.log("isShowTimeExist",isShowTimeExists );
+         if (Object.keys(isShowTimeExists).length == 0) {
+            customeResponse = buildResponse.errorResponse(400, "show time not exists in our db");
+            return customeResponse;
+         } else {
+            let result = await movieShows.addNewMovieShow(showData);
+            result.showingFromDate = moment(result.showingFromDate).format('DD/MM/YYYY');
+            result.showingToDate   = moment(result.showingToDate).format('DD/MM/YYYY');
+            console.log(result.showingToDate);
+            let newResult={};
+            newResult.movieId         = result.movieId;
+            newResult.cinemaHallId    = result.cinemaHallId;
+            newResult.showTime        = result.showTime;
+            newResult.showingFromDate = moment(result.showingFromDate).format('DD/MM/YYYY');
+            newResult.showingToDate   = moment(result.showingToDate).format('DD/MM/YYYY');
+            customeResponse = buildResponse.successResponse(200, " new showTime added succefully", newResult);
+            return customeResponse;
+         }
+      } catch (error) {
+         console.log("error occured during add showtime =>", error);
          customeResponse = buildResponse.errorResponse(500, "some error occured");
          return customeResponse;
       }

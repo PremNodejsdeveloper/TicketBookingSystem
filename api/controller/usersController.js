@@ -34,10 +34,24 @@ module.exports = {
          console.log("error occured during fetching Movie Record =>",error);
          response.status(500).json("some error occured");
       } 
-  }
+    },
 
  
-    // searchForMovie()
+     searchForMovie : async function(request, response){
+      try{
+         let searchParams = request.body;
+         let result  = await userService.searchForMovies(searchParams);
+         response.status(result.code).json(result);
+      }catch(error){
+         console.log("error occured during searching Movie Record =>",error);
+         response.status(500).json("some error occured");
+      } 
+     }
+
+
+
+
+
     // bookTicket()
     // makePayment()
     // cancleTicket()

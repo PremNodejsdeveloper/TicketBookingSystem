@@ -5,9 +5,10 @@ const adminController = require('../api/controller/adminController');
 
 /* --------Users routes------------------ */
 
-router.post('/signUp',   usersController.signUp)
-router.post('/login',    usersController.login)
-router.get('/listMovies',usersController.getAllMovies)
+router.post('/signUp',       usersController.signUp)
+router.post('/login',        usersController.login)
+router.get('/listMovies',    usersController.getAllMovies)
+router.post('/searchMovies', usersController.searchForMovie)
 
 
 /* --------Admin routes------------------ */
@@ -17,6 +18,9 @@ router.post('/admin/addCity',         adminController.addCityRecord)
 router.post('/admin/addCinema',       adminController.addCinemaRecord)
 router.post('/admin/addCinemaHall',   adminController.addCinemaHallRecord)
 router.post('/admin/addSeats',        adminController.addSeatsRecord)
+router.post('/admin/addSeatsInfo',    adminController.addSeatsInfoRecord)
+router.post('/admin/showTime',        adminController.addShowTimeToHall)
+router.post('/admin/newShow',         adminController.addNewMovieShow)
 router.post('/admin/addMovie',        adminController.addMovieRecord)
 router.post('/admin/delMovie',        adminController.deleteMovieRecord)
 router.put('/admin/updateMovie',      adminController.updateMovieRecord)

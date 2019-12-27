@@ -31,23 +31,26 @@ const seatStatusSchema = new Schema({
 
 let SeatStatus= mongoose.model("SeatStatus", seatStatusSchema);
 
-async function refSeatStatus(seatsData){
-    let newRefSeatStatus = new SeatStatus({
-        rowSeatId  : seatData.rSeatId,
-        seatNumber : seatData.sNumber,
-        seatStatus : seatData.sStatus,
+async function addSeatsByRow(seatData){
+    let listOfSeats=[];
+    for(let i=1;i<=seatData.noOfSeats;i++){
+        listOfSeats.push({
+        rowSeatId  : seatData.rowSeatId,
+        seatNumber : i,
         createdAt  : Date.now()
-        
-    })
+        })
+    }
+    //console.log("list of seats are ",listOfSeats);
     try{
-        let savedSeatStatus= await newRefSeatStatus.save();
+        let savedSeatStatus= await SeatStatus.insertMany(listOfSeats);
         return savedSeatStatus;
+        //return listOfSeats;
        }catch(err){
-        console.log(err);
+        console.log("error during adding to row by row ",err);
         return err;
        }     
 }
 
 module.exports ={
-    refSeatStatus
+    addSeatsByRow
 }

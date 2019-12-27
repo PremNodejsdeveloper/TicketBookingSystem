@@ -44,6 +44,18 @@ async function addSeats(seatData){
        }     
 }
 
+
+async function findRowOfSeatById(rowSeatId){
+    try{
+        let savedRowSeats= await RowSeats.findById({_id:rowSeatId});
+        return savedRowSeats;
+       }catch(err){
+        console.log("error during fetching seats data ",err);
+        return err;
+       }     
+}
+
 module.exports ={
-    addSeats
+    addSeats,
+    findRowOfSeatById
 }

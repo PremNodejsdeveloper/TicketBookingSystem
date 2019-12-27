@@ -117,4 +117,37 @@ let adminService = require('../services/adminService');
       }
     },
 
+    addSeatsInfoRecord: async function (request, response) {
+      try {
+         let seatesInfo = request.body;
+         let result = await adminService.addSeatsByRow(seatesInfo);
+         response.status(result.code).json(result);
+      } catch (error) {
+         console.log("error occured during addSeats Info =>", error);
+         response.status(500).json("some error occured");
+      }
+    },
+
+    addShowTimeToHall: async function (request, response) {
+      try {
+         let showData = request.body;
+         let result = await adminService.addShowTimeToHall(showData);
+         response.status(result.code).json(result);
+      } catch (error) {
+         console.log("error occured during addSeats Info =>", error);
+         response.status(500).json("some error occured");
+      }
+    },
+
+    addNewMovieShow: async function (request, response) {
+      try {
+         let showData = request.body;
+         let result = await adminService.addNewMovieShow(showData);
+         response.status(result.code).json(result);
+      } catch (error) {
+         console.log("error occured during addSeats Info =>", error);
+         response.status(500).json("some error occured");
+      }
+    },
+
 }
