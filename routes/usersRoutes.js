@@ -9,6 +9,8 @@ router.post('/signUp',       usersController.signUp)
 router.post('/login',        usersController.login)
 router.get('/listMovies',    usersController.getAllMovies)
 router.post('/searchMovies', usersController.searchForMovie)
+router.post('/bookTicket',   usersController.bookTicket)
+router.get('/performNumber', usersController.performanceNumber)
 
 
 /* --------Admin routes------------------ */

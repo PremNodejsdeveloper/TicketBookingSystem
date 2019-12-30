@@ -116,11 +116,30 @@ async function findShowsByDate(sDate) {
     } 
 }
 
+async function findShowsByMovieId(movie) {
+    try {
+        let movieShows = await MovieShows.find({movieId: movie}).populate('movieId');
+        return movieShows;
+    } catch (err) {
+        console.log("error occured during fetching showTime ", err);
+        return err;
+    } 
+}
 
+async function findShowsById(movieShowId) {
+    try {
+        let movieShows = await MovieShows.find({_id: movieShowId});
+        return movieShows;
+    } catch (err) {
+        console.log("error occured during fetching showTime ", err);
+        return err;
+    } 
+}
 module.exports ={
     findShowTime,
     addNewShowTime,
     addNewMovieShow,
     findShowsByTime,
-    findShowsByDate
+    findShowsByDate,
+    findShowsByMovieId
 }

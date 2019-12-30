@@ -46,13 +46,31 @@ module.exports = {
          console.log("error occured during searching Movie Record =>",error);
          response.status(500).json("some error occured");
       } 
+     },
+
+
+     bookTicket : async function(request, response){
+      try{
+         let bookingDetail = request.body;
+         let result  = await userService.bookTicket(bookingDetail);
+         response.status(result.code).json(result);
+      }catch(error){
+         console.log("error occured during searching Movie Record =>",error);
+         response.status(500).json("some error occured");
+      } 
+     },
+
+
+     performanceNumber : async function(request, response){
+      try{
+         let result  = await userService.performanceNumber();
+         response.status(result.code).json(result);
+      }catch(error){
+         console.log("error occured during searching Movie Record =>",error);
+         response.status(500).json("some error occured");
+      } 
      }
 
-
-
-
-
-    // bookTicket()
     // makePayment()
     // cancleTicket()
     

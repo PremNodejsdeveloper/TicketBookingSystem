@@ -1,9 +1,13 @@
-let Users   =   require('../models/usersModel');
-let movie   =   require('../models/movieModel');
-let movieShows = require('../models/movieShowsModel');
-let verifyEmail = require('../utils/verifyemail');
-let buildResponse = require('../utils/responseFormatter');
-let validateUserData = require('../utils/validateUserData');
+let Users       =  require('../models/usersModel');
+let movie       =  require('../models/movieModel');
+let movieShows  =  require('../models/movieShowsModel');
+let verifyEmail =  require('../utils/verifyemail');
+let bookTicket  =  require('../models/bookTicketModel');
+let seatStatus  =  require('../models/refSeatStatus');
+let bookPerformSeats  = require('../models/bookTicketModel');
+let performanceNumber = require('../models/performanceNumber');
+let buildResponse     = require('../utils/responseFormatter');
+let validateUserData  = require('../utils/validateUserData');
 
 
 
@@ -91,9 +95,9 @@ module.exports = {
            customeResponse = buildResponse.errorResponse(500,"some error occured");
            return customeResponse;
         }
-      },
+    },
 
-      searchForMovies : async function(searchParams){
+    searchForMovies : async function(searchParams){
         try{
             let customeResponse
             //let result = await movieShows.findShowsByTime(searchParams.showTime);
@@ -111,6 +115,52 @@ module.exports = {
             customeResponse = buildResponse.errorResponse(500,"some error occured");
             return customeResponse;
          }
-      }
+    },
+
+
+    bookTicket : async function(bookingDetail){
+        try{
+            let customeResponse;
+            let refSeatStatus;
+            let finalResult = {};
+            let savedBooking = await bookTicket.bookNewTicket(bookingDetail);
+            console.log("saved Booking  is ", savedBooking);
+            if(Object.keys(savedBooking).length!=0){
+            
+               refSeatStatus = await seatStatus.updateSeatStatus(bookingDetail)
+               
+               finalResult.savedBooking=savedBooking;
+               finalResult.refSeatStatus=refSeatStatus;
+               customeResponse = buildResponse.successResponse(200,"Ticket Booked succefully",finalResult);
+               return customeResponse;
+            }else{
+                customeResponse = buildResponse.errorResponse(400,"Ticket not booked ",finalResult);
+                return customeResponse;
+            }           
+         }catch(error){
+            console.log("error occured during BookTicket =>",error);
+            customeResponse = buildResponse.errorResponse(500,"some error occured");
+            return customeResponse;
+        }
+    },
+
+    performanceNumber : async function(PeformData){
+        try{
+            let customeResponse
+            let savedPerformance = await performanceNumber.addNewPerformance();
+            console.log("saved performance is ", savedPerformance);
+            if(Object.keys(savedPerformance).length!=0){
+               customeResponse = buildResponse.successResponse(200,"performance number added succefully",savedPerformance);
+               return customeResponse;
+            }else{
+                customeResponse = buildResponse.errorResponse(500,"perfromance number not added ",savedPerformance);
+                return customeResponse;
+            }           
+         }catch(error){
+            console.log("error occured during BookTicket =>",error);
+            customeResponse = buildResponse.errorResponse(500,"some error occured");
+            return customeResponse;
+        }
+    }
   
 }

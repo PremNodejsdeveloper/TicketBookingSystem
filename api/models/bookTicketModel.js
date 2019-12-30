@@ -1,31 +1,31 @@
 const mongoose = require('mongoose');
-
-//Setting Up Schema
-const bookTicketSchema = mongoose.Schema({
+const Schema   = mongoose.Schema
+const bookTicketSchema = new Schema({
 
     customerId :{
-        type : Number,
-        required: false
+        type : Schema.Types.ObjectId,
+        ref  :'Users',
+        required: true
     },
     movieShowId: {
-        type : String,
-        require : false
+        type : Schema.Types.ObjectId,
+        ref  : 'Movie',
+        require : true
     },
     bookingForDate :{
         type :Date,
-        require : false
+        require : true
     },
     bookingMadeDate: {
         type : Date ,
-        required : false
+        required : true
     },
     bookingSeatCount :{
-        type : Date,
-        required : false
+        type : Number,
+        required : true
     },
     createdAt: {
-        type:Date,
-        default:Date.now
+        type:Date
     },
     updatedAt: {
         type:Date,
@@ -33,12 +33,32 @@ const bookTicketSchema = mongoose.Schema({
     }
 });
 
-const bookTicketModel = mongoose.model("BookTicket",bookTicketSchema);
+const BookTicket = mongoose.model("BookTicket",bookTicketSchema);
 
- function updateSeatsAvaliable(){
 
- }
+
+async function bookNewTicket(movieTicket){
+
+    console.log("movieTicket ",movieTicket);
+    let newBookTicket  = new BookTicket({
+        customerId       : movieTicket.customerId,
+        movieShowId      : movieTicket.movieShowId,
+        bookingForDate   : movieTicket.bookingForDate,
+        bookingSeatCount : movieTicket.noOfTicket,
+        bookingMadeDate  : Date.now(),
+        createdAt        : Date.now()
+       });
+        
+       try{
+        let savedTicket= await newBookTicket.save();
+        return savedTicket;
+       }catch(err){
+        console.log("error occured during inserting new Ticket ",err);
+        return err;
+       } 
+}
+
 
  module.exports = {
-     updateSeatsAvaliable
+     bookNewTicket
  }

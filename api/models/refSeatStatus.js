@@ -51,6 +51,28 @@ async function addSeatsByRow(seatData){
        }     
 }
 
+async function updateSeatStatus(seatStatus){
+
+    //let ids =[]; or
+    // for(let i=0;i<seatStatus.seatNumber.length;i++){
+
+    // }
+    
+    let ids = seatStatus.seatNumber;
+    let cond={_id: { $in: ids } }
+    let updateStaus={ $set: { seatStatus : "BOOKED" } }
+    let options={multi: true}
+    
+    try{
+        let savedSeatStatus= await SeatStatus.update(cond,updateStaus,options);
+        return savedSeatStatus;
+       }catch(err){
+        console.log("error during updating Seat Status",err);
+        return err;
+       }     
+}
+
 module.exports ={
-    addSeatsByRow
+    addSeatsByRow,
+    updateSeatStatus
 }

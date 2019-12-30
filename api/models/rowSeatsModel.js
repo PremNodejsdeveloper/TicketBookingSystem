@@ -9,7 +9,8 @@ const rowSeatsSchema = new Schema({
         required: true
     },
     rowNumbers: { 
-        type : String,
+        type : Schema.Types.ObjectId,
+        ref  :"SeatStatus",
         required: false
     },
     seatCount: {
@@ -21,7 +22,7 @@ const rowSeatsSchema = new Schema({
     },
     updatedAt: {
         type:Date,
-        default:Date.now
+        default:Date.now()
     }
 });
 
