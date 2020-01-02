@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const usersController = require('../api/controller/usersController');
-const adminController = require('../api/controller/adminController');
+const usersController = require('../api/controller/UsersController');
+const adminController = require('../api/controller/AdminController');
 
 /* --------Users routes------------------ */
 
