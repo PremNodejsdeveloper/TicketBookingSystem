@@ -44,8 +44,8 @@ let BookedPerformSeats = mongoose.model("BookedPerformanceSeats", bookedPerformS
 
 async function addBookedPerformance(performData){
     let bookedPerformSeats =  new BookedPerformSeats({
-            cinemaHallId   :  performData.pStartTime,
-            rowNumber      :  performData.pEndTime,
+            cinemaHallId   :  performData.cinemaHallId,
+            rowNumber      :  performData.rowNumber,
             seatNumber     :  performData.seatNumber,
             bookTicketId   :  performData.bookTicketId,
             performanceDate:  Date.now(),
