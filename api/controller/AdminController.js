@@ -1,4 +1,4 @@
-let adminService = require('../services/adminService');
+let adminService = require('../services/AdminService');
    
    // This is Admin Taks Area
    
